@@ -2,6 +2,8 @@
 
 Hi! My name is Gus! Welcome to my personal space on the web! This repository serves as a hub for my projects, blog posts, and other exciting content.
 
+This site is inspired by this Hugo [theme](https://github.com/charlola/hugo-theme-charlolamode).
+
 ## Projects
 
 In this repository, you will find a collection of my personal projects. These projects showcase my skills, creativity, and passion for software development. Feel free to explore and get inspired!
