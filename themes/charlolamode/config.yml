@@ -42,19 +42,19 @@ params:
     profileMode:
         # Disable to populate home page with 'mainSections' content
         enabled: true
-        title: Gus Feliciano
+        title: Hello, I'm Gus! 👋
         description: |
 
-          Hello, I am Gus!
-           I am a Technical Program Manager and Tech Enthusiast. 
+          
+           I'm a Technical Program Manager and Tech Enthusiast. 
         
         imageUrl: "/images/profile.png"
         imageTitle: my image
-        # imageWidth: 120
-        # imageHeight: 120
+        imageWidth: 240
+        imageHeight: 240
         buttons:
-            - name: Don't click me
-              url: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+            - name: Resume
+              url: /Gustavo.Feliciano.Resume.pdf
     mainSections:
       - articles
 
