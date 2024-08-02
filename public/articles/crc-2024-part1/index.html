@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>AWS Cloud Resume Challenge Blog Post Part 1 | Gus Feliciano</title>
+<meta name="keywords" content="" />
+<meta name="description" content="Building a Cloud-Native Website with AWS From Static Hosting to Dynamic Content">
+<meta name="author" content="Gus Feliciano">
+<link rel="canonical" href="http://localhost:1313/articles/crc-2024-part1/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.7bfe087ae72df31787ec7a1360dd05ee246a179b51cf7a30a904b39d7f813b69.css" integrity="sha256-e/4Ieuct8xeH7HoTYN0F7iRqF5tRz3owqQSznX&#43;BO2k=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.2eadbb982468c11a433a3e291f01326f2ba43f065e256bf792dbd79640a92316.js" integrity="sha256-Lq27mCRowRpDOj4pHwEybyukPwZeJWv3ktvXlkCpIxY="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://localhost:1313/images/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/images/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/images/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/images/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/images/apple-touch-icon.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/articles/crc-2024-part1/" />
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Gus Feliciano (Alt + H)">Gus Feliciano</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="/" title="Home"><span>Home</span></a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/articles/" title="Articles">
+                    <span>Articles</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/contact/" title="Contact">
+                    <span>Contact</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/articles/">Articles</a></div>
+    <h1 class="post-title">
+      AWS Cloud Resume Challenge Blog Post Part 1
+    </h1>
+    <div class="post-description">
+      Building a Cloud-Native Website with AWS From Static Hosting to Dynamic Content
+    </div>
+    <div class="post-meta">6 min&amp;nbsp;·&amp;nbsp;Gus Feliciano</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#building-a-cloud-native-website-with-aws-from-static-hosting-to-dynamic-content" aria-label="Building a Cloud-Native Website with AWS: From Static Hosting to Dynamic Content">Building a Cloud-Native Website with AWS: From Static Hosting to Dynamic Content</a><ul>
+                        
+                <li>
+                    <a href="#table-of-contents" aria-label="Table of Contents">Table of Contents</a></li>
+                <li>
+                    <a href="#introduction" aria-label="Introduction">Introduction</a></li>
+                <li>
+                    <a href="#setting-up-a-static-website-with-s3" aria-label="Setting Up a Static Website with S3">Setting Up a Static Website with S3</a></li>
+                <li>
+                    <a href="#securing-the-website-with-cloudfront" aria-label="Securing the Website with CloudFront">Securing the Website with CloudFront</a></li>
+                <li>
+                    <a href="#configuring-dns-with-route-53" aria-label="Configuring DNS with Route 53">Configuring DNS with Route 53</a></li>
+                <li>
+                    <a href="#implementing-a-visitor-counter" aria-label="Implementing a Visitor Counter">Implementing a Visitor Counter</a><ul>
+                        
+                <li>
+                    <a href="#dynamodb-for-data-storage" aria-label="DynamoDB for Data Storage">DynamoDB for Data Storage</a></li>
+                <li>
+                    <a href="#lambda-for-backend-logic" aria-label="Lambda for Backend Logic">Lambda for Backend Logic</a></li>
+                <li>
+                    <a href="#api-gateway-for-http-endpoints" aria-label="API Gateway for HTTP Endpoints">API Gateway for HTTP Endpoints</a></li></ul>
+                </li>
+                <li>
+                    <a href="#frontend-javascript-integration" aria-label="Frontend JavaScript Integration">Frontend JavaScript Integration</a></li>
+                <li>
+                    <a href="#testing-the-javascript-code" aria-label="Testing the JavaScript Code">Testing the JavaScript Code</a></li>
+                <li>
+                    <a href="#conclusion" aria-label="Conclusion">Conclusion</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content">
+  <p>&ldquo;Building a Cloud-Native Website with AWS: From Static Hosting to Dynamic Content&rdquo;</p>
+<ol>
+<li>Introduction</li>
+<li>Setting Up a Static Website with S3</li>
+<li>Securing the Website with CloudFront</li>
+<li>Configuring DNS with Route 53</li>
+<li>Implementing a Visitor Counter
+<ul>
+<li>DynamoDB for Data Storage</li>
+<li>Lambda for Backend Logic</li>
+<li>API Gateway for HTTP Endpoints</li>
+</ul>
+</li>
+<li>Frontend JavaScript Integration</li>
+<li>Testing the JavaScript Code</li>
+<li>Conclusion</li>
+</ol>
+<hr>
+<h1 id="building-a-cloud-native-website-with-aws-from-static-hosting-to-dynamic-content">Building a Cloud-Native Website with AWS: From Static Hosting to Dynamic Content</h1>
+<p>I heard about the Cloud Resume Challenge while surfing reddit a few years ago. As a tech enthusiast but someone who is not working in AWS on a daily basis, the challenge intrigued me. </p>
+<p>The Cloud Resume Challenge, created by Forrest Brazeal, is a multi-step project that involves building a full-stack application using various AWS services. It&rsquo;s designed to showcase cloud skills through practical implementation, making it an excellent exercise even for those of us already in the field.</p>
+<p>In this blog post, I&rsquo;ll share my experience completing the Cloud Resume Challenge, detailing the AWS services I used, the architecture I implemented, and the insights I gained. Whether you&rsquo;re a cloud professional looking to sharpen your skills or someone curious about real-world AWS applications, I hope you&rsquo;ll find value in my journey through this project.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#setting-up-a-static-website-with-s3">Setting Up a Static Website with S3</a></li>
+<li><a href="#securing-the-website-with-cloudfront">Securing the Website with CloudFront</a></li>
+<li><a href="#configuring-dns-with-route-53">Configuring DNS with Route 53</a></li>
+<li><a href="#implementing-a-visitor-counter">Implementing a Visitor Counter</a></li>
+<li><a href="#frontend-javascript-integration">Frontend JavaScript Integration</a></li>
+<li><a href="#testing-the-javascript-code">Testing the JavaScript Code</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ol>
+<h2 id="introduction">Introduction</h2>
+<p>Cloud-native development leverages the power of cloud computing to build scalable and resilient applications. In this comprehensive guide, we&rsquo;ll walk through the process of creating a cloud-native website using various AWS services. We&rsquo;ll start with hosting a static website and progressively add dynamic features, including a visitor counter. This article is perfect for beginners who want to understand how different AWS services work together to create a fully functional, scalable website.</p>
+<h2 id="setting-up-a-static-website-with-s3">Setting Up a Static Website with S3</h2>
+<p>Amazon S3 (Simple Storage Service) is an object storage service that we can use to host static websites. Here&rsquo;s how to set it up:</p>
+<ol>
+<li>
+<p>Create an S3 bucket:</p>
+<ul>
+<li>Go to the AWS Management Console and navigate to S3.</li>
+<li>Click &ldquo;Create bucket&rdquo; and choose a globally unique name.</li>
+<li>In the bucket settings, enable &ldquo;Static website hosting&rdquo;.</li>
+<li>Set the index document to &ldquo;index.html&rdquo;.</li>
+</ul>
+</li>
+<li>
+<p>Upload your website files:</p>
+<ul>
+<li>Upload your HTML, CSS, and JavaScript files to the bucket.</li>
+<li>Ensure the files have public read permissions.</li>
+</ul>
+</li>
+<li>
+<p>Configure bucket policy:</p>
+<ul>
+<li>In the bucket permissions, add a bucket policy to allow public read access:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Statement&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Sid&#34;</span>: <span style="color:#e6db74">&#34;PublicReadGetObject&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Principal&#34;</span>: <span style="color:#e6db74">&#34;*&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Action&#34;</span>: <span style="color:#e6db74">&#34;s3:GetObject&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Resource&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:s3:::your-bucket-name/*&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Replace &ldquo;your-bucket-name&rdquo; with your actual bucket name.</p>
+</li>
+</ol>
+<h2 id="securing-the-website-with-cloudfront">Securing the Website with CloudFront</h2>
+<p>CloudFront is AWS&rsquo;s Content Delivery Network (CDN) service. We&rsquo;ll use it to serve our website over HTTPS and improve performance:</p>
+<ol>
+<li>
+<p>Create a CloudFront distribution:</p>
+<ul>
+<li>In the AWS Console, go to CloudFront and click &ldquo;Create Distribution&rdquo;.</li>
+<li>Set the origin domain to your S3 bucket&rsquo;s website endpoint.</li>
+<li>Enable &ldquo;Redirect HTTP to HTTPS&rdquo;.</li>
+</ul>
+</li>
+<li>
+<p>Configure SSL/TLS certificate:</p>
+<ul>
+<li>Use AWS Certificate Manager (ACM) to create a free SSL/TLS certificate for your domain.</li>
+<li>In your CloudFront distribution settings, select this certificate.</li>
+</ul>
+</li>
+<li>
+<p>Set up Origin Access Identity (OAI):</p>
+<ul>
+<li>Create an OAI and associate it with your distribution.</li>
+<li>Update your S3 bucket policy to only allow access from this OAI.</li>
+</ul>
+</li>
+</ol>
+<h2 id="configuring-dns-with-route-53">Configuring DNS with Route 53</h2>
+<p>Route 53 is AWS&rsquo;s Domain Name System (DNS) web service. We&rsquo;ll use it to map our domain name to our CloudFront distribution:</p>
+<ol>
+<li>
+<p>Create a hosted zone:</p>
+<ul>
+<li>In Route 53, create a hosted zone for your domain.</li>
+</ul>
+</li>
+<li>
+<p>Update name servers:</p>
+<ul>
+<li>If your domain is registered elsewhere, update the name servers at your registrar to use Route 53&rsquo;s name servers.</li>
+</ul>
+</li>
+<li>
+<p>Create record sets:</p>
+<ul>
+<li>Create an A record for your domain, aliasing it to your CloudFront distribution.</li>
+<li>If needed, create a CNAME record for www subdomain.</li>
+</ul>
+</li>
+</ol>
+<h2 id="implementing-a-visitor-counter">Implementing a Visitor Counter</h2>
+<p>For our visitor counter, we&rsquo;ll use a serverless architecture with DynamoDB, Lambda, and API Gateway.</p>
+<h3 id="dynamodb-for-data-storage">DynamoDB for Data Storage</h3>
+<p>DynamoDB is a NoSQL database service. We&rsquo;ll use it to store our visitor count:</p>
+<ol>
+<li>Create a DynamoDB table:
+<ul>
+<li>Name: &ldquo;VisitorCount&rdquo;</li>
+<li>Partition key: &ldquo;id&rdquo; (String)</li>
+<li>Add an item with id &ldquo;visitors&rdquo; and an attribute &ldquo;count&rdquo; set to 0.</li>
+</ul>
+</li>
+</ol>
+<h3 id="lambda-for-backend-logic">Lambda for Backend Logic</h3>
+<p>Lambda allows us to run code without provisioning servers. Our Lambda function will update the visitor count:</p>
+<ol>
+<li>
+<p>Create a Lambda function:</p>
+<ul>
+<li>Runtime: Node.js 20.x</li>
+<li>Code:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">DynamoDBClient</span>, <span style="color:#a6e22e">UpdateItemCommand</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;@aws-sdk/client-dynamodb&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">client</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">DynamoDBClient</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">exports</span>.<span style="color:#a6e22e">handler</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">event</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">params</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">TableName</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">TABLE_NAME</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Key</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">S</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;visitors&#39;</span> } },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">UpdateExpression</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;ADD visitorCount :inc&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">ExpressionAttributeValues</span><span style="color:#f92672">:</span> { <span style="color:#e6db74">&#39;:inc&#39;</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">N</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;1&#39;</span> } },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">ReturnValues</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;UPDATED_NEW&#39;</span>
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">command</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">UpdateItemCommand</span>(<span style="color:#a6e22e">params</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">send</span>(<span style="color:#a6e22e">command</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">visitorCount</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">Attributes</span>.<span style="color:#a6e22e">visitorCount</span>.<span style="color:#a6e22e">N</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">statusCode</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">200</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;Access-Control-Allow-Origin&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;https://yourdomain.com&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;Access-Control-Allow-Headers&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Content-Type&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;Access-Control-Allow-Methods&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;OPTIONS,POST&#34;</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">body</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>({ <span style="color:#a6e22e">visitorCount</span><span style="color:#f92672">:</span> parseInt(<span style="color:#a6e22e">visitorCount</span>) })
+</span></span><span style="display:flex;"><span>        };
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">error</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#39;Error:&#39;</span>, <span style="color:#a6e22e">error</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">statusCode</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">500</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;Access-Control-Allow-Origin&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;https://yourdomain.com&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;Access-Control-Allow-Headers&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Content-Type&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;Access-Control-Allow-Methods&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;OPTIONS,POST&#34;</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">body</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>({ <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Failed to update visitor count&#39;</span> })
+</span></span><span style="display:flex;"><span>        };
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div></li>
+<li>
+<p>Set up environment variables:</p>
+<ul>
+<li>Add TABLE_NAME environment variable with your DynamoDB table name.</li>
+</ul>
+</li>
+<li>
+<p>Configure permissions:</p>
+<ul>
+<li>Give the Lambda function permission to read/write to your DynamoDB table.</li>
+</ul>
+</li>
+</ol>
+<h3 id="api-gateway-for-http-endpoints">API Gateway for HTTP Endpoints</h3>
+<p>API Gateway allows us to create, publish, and manage APIs. We&rsquo;ll use it to expose our Lambda function:</p>
+<ol>
+<li>
+<p>Create a new API:</p>
+<ul>
+<li>Choose HTTP API type.</li>
+</ul>
+</li>
+<li>
+<p>Create a resource and method:</p>
+<ul>
+<li>Create a resource named &ldquo;visitorcount&rdquo;.</li>
+<li>Add a POST method to this resource, integrating it with your Lambda function.</li>
+</ul>
+</li>
+<li>
+<p>Enable CORS:</p>
+<ul>
+<li>In the API settings, enable CORS for your domain.</li>
+</ul>
+</li>
+<li>
+<p>Deploy the API:</p>
+<ul>
+<li>Create a new stage (e.g., &ldquo;prod&rdquo;) and deploy your API.</li>
+</ul>
+</li>
+</ol>
+<h2 id="frontend-javascript-integration">Frontend JavaScript Integration</h2>
+<p>Now, let&rsquo;s integrate our backend with the frontend:</p>
+<ol>
+<li>
+<p>Add HTML for the visitor counter:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;visitor-count&#34;</span>&gt;Visitors: &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;count&#34;</span>&gt;0&lt;/<span style="color:#f92672">span</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span></code></pre></div></li>
+<li>
+<p>Add JavaScript to call our API:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">updateVisitorCount</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fetch</span>(<span style="color:#e6db74">&#39;https://your-api-gateway-url/visitorcount&#39;</span>, {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">method</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;POST&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;Content-Type&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;application/json&#39;</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">mode</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;cors&#39;</span>
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">response</span> =&gt; <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">json</span>())
+</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">data</span> =&gt; {
+</span></span><span style="display:flex;"><span>        document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;count&#39;</span>).<span style="color:#a6e22e">textContent</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">visitorCount</span>;
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>    .<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">error</span> =&gt; <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#39;Error:&#39;</span>, <span style="color:#a6e22e">error</span>));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>document.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;DOMContentLoaded&#39;</span>, <span style="color:#a6e22e">updateVisitorCount</span>);
+</span></span></code></pre></div><p>Replace &lsquo;https://your-api-gateway-url&rsquo; with your actual API Gateway URL.</p>
+</li>
+</ol>
+<h2 id="testing-the-javascript-code">Testing the JavaScript Code</h2>
+<p>To ensure our JavaScript works correctly, we&rsquo;ll add some tests:</p>
+<ol>
+<li>
+<p>Install Jest for testing:</p>
+<pre tabindex="0"><code>npm install --save-dev jest
+</code></pre></li>
+<li>
+<p>Create a test file (e.g., <code>visitorCounter.test.js</code>):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// Mock fetch function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">global</span>.<span style="color:#a6e22e">fetch</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">jest</span>.<span style="color:#a6e22e">fn</span>(() =&gt;
+</span></span><span style="display:flex;"><span>  Promise.<span style="color:#a6e22e">resolve</span>({
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">json</span><span style="color:#f92672">:</span> () =&gt; Promise.<span style="color:#a6e22e">resolve</span>({ <span style="color:#a6e22e">visitorCount</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">5</span> }),
+</span></span><span style="display:flex;"><span>  })
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Import the function to test
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">updateVisitorCount</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;./visitorCounter&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">test</span>(<span style="color:#e6db74">&#39;updates visitor count correctly&#39;</span>, <span style="color:#66d9ef">async</span> () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Set up our document body
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  document.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&lt;div id=&#34;count&#34;&gt;0&lt;/div&gt;&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Call the function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">updateVisitorCount</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Check that the count was updated
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">expect</span>(document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;count&#39;</span>).<span style="color:#a6e22e">textContent</span>).<span style="color:#a6e22e">toBe</span>(<span style="color:#e6db74">&#39;5&#39;</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div></li>
+<li>
+<p>Run the tests:</p>
+<pre tabindex="0"><code>npx jest
+</code></pre></li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this guide, we&rsquo;ve covered how to build a cloud-native website using various AWS services. We&rsquo;ve implemented a static website with S3, secured it with CloudFront, set up DNS with Route 53, and created a serverless backend with DynamoDB, Lambda, and API Gateway.</p>
+<p>This architecture provides a scalable, secure, and cost-effective solution for hosting websites and web applications. As you become more comfortable with these services, you can expand on this foundation to build even more complex and feature-rich applications.</p>
+<p>In the next article, we&rsquo;ll explore how to automate the deployment of this website using CI/CD practices with GitHub Actions.</p>
+
+  </div>
+
+  <footer class="post-footer">
+
+<div class="share-buttons">
+
+    <a target="_blank" rel="noopener noreferrer" aria-label="share AWS Cloud Resume Challenge Blog Post Part 1 on linkedin"
+        href="https://www.linkedin.com/in/gustavofeliciano/">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+</div>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span> built with ♥ in Colorado
+      
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
