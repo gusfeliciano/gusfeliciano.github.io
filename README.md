@@ -1,6 +1,6 @@
 # Gus Feliciano's Personal Website
 
-Welcome to the repository for my personal website! This site serves as a hub for my professional information, projects, and potentially blog posts. You can visit the live site at [https://gusfeliciano.github.io](https://gusfeliciano.github.io).
+Welcome to the repository for my personal website hosted on github pages! I personally prefer a actual website but this is a great example for someone looking for a no frills personal portfolio with $0 cost setup! You can visit the live site at [https://gusfeliciano.github.io](https://gusfeliciano.github.io).
 
 ## About This Site
 
